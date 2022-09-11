@@ -1,0 +1,36 @@
+.navbar {
+  padding: 15px 0;
+  border-bottom: 2px solid rgba(0, 0, 0, .7);
+  margin-bottom: 35px;
+}
+
+main, footer, header  {
+max-width: 1200px;
+margin: 0 auto;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.footer__wrapper {
+  gap: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer__item {
+  width: 30px;
+}
+
+.footer__item:hover {
+  opacity: .7;
+}
