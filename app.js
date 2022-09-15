@@ -18,8 +18,12 @@ app.get('/about', function(request, response){
   response.render("about.hbs", model)
 })
 
-  app.get('/contacts', function(request, response){
+app.get('/contacts', function(request, response){
     response.render("contacts.hbs")
-  })
+})
+
+app.get('/', function(request, response){
+  response.render("home.hbs")
+})
 
 app.listen(8080)
