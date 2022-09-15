@@ -11,11 +11,11 @@ app.engine("hbs", expressHandlebars.engine({
 
 app.use(express.static(path.join(__dirname, '/public')));
 
-app.get('/', function(request, response){
+app.get('/about', function(request, response){
   const model = {
     humans: dummyData.humans
   }
-  response.render("home.hbs", model)
+  response.render("about.hbs", model)
 })
 
   app.get('/contacts', function(request, response){
