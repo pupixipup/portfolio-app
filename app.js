@@ -19,7 +19,7 @@ app.get('/', function(request, response){
 })
 
   app.get('/contacts', function(request, response){
-    response.render("about-us.hbs")
+    response.render("contacts.hbs")
   })
 
 app.listen(8080)

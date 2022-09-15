@@ -1,0 +1,16 @@
+.contacts__item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.contacts__item-img {
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+}
+
+li {
+  list-style: none;
+}
