@@ -6,17 +6,13 @@
 
 main, footer, header  {
 max-width: 1200px;
+width: 100%;
 margin: 0 auto;
 }
 
 footer {
-  padding-top: 50px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 40px;
-  width: 100%;
+  padding-top: 5px;
+  margin-top: auto;
   display: flex;
   justify-content: center;
 }
@@ -35,4 +31,11 @@ footer {
 
 .footer__item:hover {
   opacity: .7;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  align-items: start;
 }
