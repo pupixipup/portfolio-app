@@ -5,6 +5,18 @@
   flex-wrap: wrap;
 }
 
+@media (max-width: 855px) {
+ .stack__item {
+  flex-basis: 50%;
+ } 
+}
+
+@media (max-width: 425px) {
+  .stack__item {
+   flex-basis: 100%;
+  } 
+ }
+
 .stack__item {
   gap: 35px;
   display: flex;
