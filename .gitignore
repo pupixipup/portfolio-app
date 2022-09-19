@@ -3,4 +3,4 @@ node_modules
 # Ignore Mac system files
 .DS_store
 # Ignore public images
-./public/images
+/public/uploads
