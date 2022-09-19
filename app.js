@@ -1,8 +1,9 @@
 const express = require('express');
 const dbAPI = require('./dbAPI.js');
 const path = require('path');
-const bodyParser = require('body-parser');
+const multer = require('multer');
 const expressHandlebars = require('express-handlebars');
+const { createVerify } = require('crypto');
 
 const app = express();
 
@@ -16,8 +17,20 @@ app.use(
   })
 )
 
+let storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, "./public/uploads");
+  },
+  filename: function(req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+
+let upload = multer({
+  storage: storage
+})
+
 app.use(express.static(path.join(__dirname, '/public')));
-app.use(bodyParser.json());
 
 app.get('/about', function(request, response){
   response.render("about.hbs")
@@ -34,7 +47,6 @@ app.get('/', function(request, response){
 
 app.get('/articles', function(request, response) {
   dbAPI.getPosts(function(posts) {
-    console.log(posts);
     response.render("articles.hbs", { posts });
   });
 });
@@ -43,12 +55,12 @@ app.get('/articles/create', function(request, response) {
   response.render("create-article.hbs")
 });
 
-app.post('/articles/create', function(request, response){
+app.post('/articles/create', upload.single('imageUrl'), function(request, response){
   const title = request.body.title;
   const text = request.body.text;
-  console.log(request.body);
+  const imageUrl = request.file.filename;
   
-  dbAPI.createPost(title, text, 'url', function(){
+  dbAPI.createPost(title, text, imageUrl, function(){
     response.redirect('/articles');
   });
 });

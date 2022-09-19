@@ -1,18 +1,17 @@
 <h3>Articles</h3>
+<a href="/articles/create">Create new post</a>
 {{#if posts.length}}
   <div class="articles">
     <div class="articles__wrapper">
       {{#each posts}}
         <div class="articles__item">
-          <img src="" alt="" />
+          <img class="articles__item-img" src="uploads/{{imageUrl}}" alt="{{title}}"/>
           <h4>
-            <a href="articles/{{id}}">{{title}}</a>
+            <a class="articles__item-title" href="articles/{{id}}">{{title}}</a>
             </h4>
-          <p>{{description}}</p>
+          <p class="articles__item-text">{{description}}</p>
         </div>
       {{/each}}
     </div>
   </div>
 {{/if}}
-
-<a href="/articles/create">Create new post</a>

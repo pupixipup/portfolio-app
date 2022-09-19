@@ -1,0 +1,14 @@
+.articles__wrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.articles__item-img {
+  max-width: 450px;
+  max-height: 450px;
+  width: 100%;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
