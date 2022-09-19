@@ -2,7 +2,16 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  align-items: center;
+  align-items: start;
+}
+
+.articles {
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+.articles__item {
+  width: 100%;
 }
 
 .articles__item-img {
@@ -11,4 +20,18 @@
   width: 100%;
   object-fit: cover;
   margin-bottom: 15px;
+}
+
+.article__wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.article__img {
+  max-width: 500px;
+  max-height: 500px;
+  height: 100%;
+  width: 100%;
 }

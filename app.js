@@ -55,6 +55,13 @@ app.get('/articles/create', function(request, response) {
   response.render("create-article.hbs")
 });
 
+app.get('/articles/:id', function(request, response) {
+  console.log(request.params.id); 
+  dbAPI.getPost(request.params.id, function(post) {
+    response.render("article.hbs", { post });
+  });
+});
+
 app.post('/articles/create', upload.single('imageUrl'), function(request, response){
   const title = request.body.title;
   const text = request.body.text;
