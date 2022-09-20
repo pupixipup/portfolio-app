@@ -55,6 +55,23 @@ app.get('/articles/create', function(request, response) {
   response.render("create-article.hbs")
 });
 
+app.get('/portfolio', function(request, response) {
+  dbAPI.getPortfolioSkills(function(skills) {
+    response.render("portfolio.hbs", { skills });
+  });
+});
+
+app.get('/portfolio/edit', (request, response) => {
+  response.render("edit-portfolio.hbs");
+});
+
+app.post('/portfolio/edit', (request, response) => {
+  console.log(request.body);
+  dbAPI.createPortfolioSkill(request.body.title, request.body.skill, () => {
+    response.redirect('/portfolio');
+  });
+});
+
 app.get('/articles/:id', function(request, response) {
   console.log(request.params.id); 
   dbAPI.getPost(request.params.id, function(post) {
@@ -74,4 +91,4 @@ app.post('/articles/create', upload.single('imageUrl'), function(request, respon
 
 app.listen(8080)
 
-console.log("Server is running on localhost:8080")
+console.log("Server is running on http://localhost:8080")

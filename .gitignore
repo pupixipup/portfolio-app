@@ -4,3 +4,5 @@ node_modules
 .DS_store
 # Ignore public images
 /public/uploads
+# ignore database
+app-database.db

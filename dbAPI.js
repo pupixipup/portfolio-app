@@ -14,6 +14,13 @@ class dbAPI {
         imageUrl TEXT
       )
     `);
+    this.db.run(`
+      CREATE TABLE IF NOT EXISTS portfolio (
+        id INTEGER PRIMARY KEY,
+        title TEXT,
+        skill INTEGER
+      )
+    `);
   }
   
   getPosts(action) {
@@ -36,6 +43,20 @@ class dbAPI {
     const values = [title, description, imageUrl];
     this.db.run(query, values, action);
   };
+
+  createPortfolioSkill(title, skill, action) {
+    const query = `INSERT INTO portfolio (title, skill) VALUES (?, ?)`;
+    const values = [title, skill];
+    this.db.run(query, values, action);
+  }
+
+  getPortfolioSkills(action) {
+    const query = `SELECT * FROM portfolio`;
+    this.db.all(query, (error, skills) => {
+      action(skills);
+    });
+  }
+
 }
 
 const database = new dbAPI();

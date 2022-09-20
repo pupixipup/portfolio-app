@@ -1,0 +1,53 @@
+.skills__item {
+  display: flex;
+  align-items: center;
+  max-width: 400px;
+  width: 100%;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+.skills__item-bar {
+  min-width: 250px;
+  background: #d5d1d1;
+}
+
+.inner-bar {
+  width: 75%;
+  height: 5px;
+  background-color: black;
+  border-radius: 15px;
+}
+
+.skill-0 {
+  width: 0%;
+}
+
+.skill-1 {
+  width: 20%;
+}
+
+.skill-2 {
+  width: 40%;
+}
+
+.skill-3 {
+  width: 60%;
+}
+
+.skill-4 {
+  width: 80%;
+}
+
+.skill-5 {
+  width: 100%;
+}
+
+@media (max-width: 450px) {
+.skills__item {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  margin-bottom: 15px;
+}
+}
