@@ -47,7 +47,11 @@ app.get('/', function(request, response){
 
 app.get('/articles', function(request, response) {
   dbAPI.getPosts(function(posts) {
+    if (posts) {
     response.render("articles.hbs", { posts });
+    } else {
+      response.render('error.hbs');
+    }
   });
 });
 
@@ -57,7 +61,11 @@ app.get('/articles/create', function(request, response) {
 
 app.get('/portfolio', function(request, response) {
   dbAPI.getPortfolioSkills(function(skills) {
-    response.render("portfolio.hbs", { skills });
+    if (skills) {
+      response.render("portfolio.hbs", { skills });
+    } else {
+      response.render("error.hbs");
+    }
   });
 });
 
@@ -66,17 +74,21 @@ app.get('/portfolio/edit', (request, response) => {
 });
 
 app.post('/portfolio/edit', (request, response) => {
-  console.log(request.body);
+  if (request.body.title && request.body.skill) {
   dbAPI.createPortfolioSkill(request.body.title, request.body.skill, () => {
     response.redirect('/portfolio');
   });
+}
 });
 
 app.get('/articles/:id', function(request, response) {
   const id = request.params.id;
   dbAPI.getPost(id, function(post, comments) {
-    console.log(post);
-    response.render("article.hbs", { post, comments });
+    if (post) {
+      response.render("article.hbs", { post, comments });
+    } else {
+      response.render("404-page-not-found.hbs");
+    }
   });
 });
 
@@ -84,9 +96,11 @@ app.post('/articles/comment', function(request, response) {
   const nickname = request.body.nickname;
   const comment = request.body.comment;
   const postId = request.body.postId;
-  dbAPI.createComment(nickname, comment, postId, () => {
-    response.redirect(`/articles/${postId}`);
+  if (nickname && comment && postId) {
+    dbAPI.createComment(nickname, comment, postId, () => {
+      response.redirect(`/articles/${postId}`);
     });
+  }
 });
 
 app.post('/articles/create', upload.single('imageUrl'), function(request, response){
@@ -94,9 +108,11 @@ app.post('/articles/create', upload.single('imageUrl'), function(request, respon
   const text = request.body.text;
   const imageUrl = request.file.filename;
   
+  if (title && text && imageUrl) {
   dbAPI.createPost(title, text, imageUrl, function(){
     response.redirect('/articles');
   });
+}
 });
 
 app.listen(8080)

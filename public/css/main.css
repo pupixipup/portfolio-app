@@ -11,6 +11,11 @@
   }
 }
 
+.center {
+  display: flex;
+  justify-content: center;
+}
+
 main, footer, header  {
 max-width: 1200px;
 width: 100%;
