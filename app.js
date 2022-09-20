@@ -73,10 +73,20 @@ app.post('/portfolio/edit', (request, response) => {
 });
 
 app.get('/articles/:id', function(request, response) {
-  console.log(request.params.id); 
-  dbAPI.getPost(request.params.id, function(post) {
-    response.render("article.hbs", { post });
+  const id = request.params.id;
+  dbAPI.getPost(id, function(post, comments) {
+    console.log(post);
+    response.render("article.hbs", { post, comments });
   });
+});
+
+app.post('/articles/comment', function(request, response) {
+  const nickname = request.body.nickname;
+  const comment = request.body.comment;
+  const postId = request.body.postId;
+  dbAPI.createComment(nickname, comment, postId, () => {
+    response.redirect(`/articles/${postId}`);
+    });
 });
 
 app.post('/articles/create', upload.single('imageUrl'), function(request, response){

@@ -28,6 +28,7 @@
 }
 
 .article__img {
+  object-fit: cover;
   max-width: 500px;
   max-height: 500px;
   height: 100%;
@@ -39,6 +40,18 @@
   text-align: center;
 }
 
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 15px;
+  border: 1px solid rgb(126, 126, 126);
+  border-radius: 15px;
+}
+
+.hidden {
+  display: none;
+}
+
 .article__form-text {
   outline: none;
   margin-bottom: 15px;
@@ -46,6 +59,27 @@
 
 #image-input {
   margin-bottom: 15px;
+}
+
+.comment-form__nickname {
+  padding: 0 5px;
+  margin-bottom: 15px;
+  align-self: start;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid black;
+}
+
+.comment-form__comment {
+  margin-bottom: 15px;
+  resize: none;
+}
+
+.comment {
+  padding: 10px;
+  border: 1px solid rgb(126, 126, 126);
+  margin-bottom: 10px;
+  border-radius: 15px;
 }
 
 .article-form__title {
@@ -57,10 +91,25 @@
   cursor: pointer;
 }
 
+.article-form__submit {
+  background: rgb(39, 67, 189);
+  color: white;
+  font-weight: 500;
+  border: none;
+  align-self: start;
+  padding: 5px 10px;
+}
+
 .article-form {
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
   display: flex;
   flex-direction: column;
+}
+
+.comment__nickname {
+  text-transform: capitalize;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #000;
 }

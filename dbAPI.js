@@ -21,6 +21,15 @@ class dbAPI {
         skill INTEGER
       )
     `);
+    this.db.run(`
+      CREATE TABLE IF NOT EXISTS comments (
+        id INTEGER PRIMARY KEY,
+        nickname TEXT,
+        comment TEXT,
+        postId INTEGER,
+        FOREIGN KEY (postId) REFERENCES posts(id)
+      )
+    `);
   }
   
   getPosts(action) {
@@ -34,7 +43,7 @@ class dbAPI {
     const query = `SELECT * FROM posts WHERE id = ?`;
     const values = [id];
     this.db.get(query, values, (error, post) => {
-      action(post);
+      this.getComments(id, post, action)
     });
   }
 
@@ -51,12 +60,25 @@ class dbAPI {
   }
 
   getPortfolioSkills(action) {
-    const query = `SELECT * FROM portfolio`;
+    const query = `SELECT * FROM portfolio ORDER BY skill DESC`;
     this.db.all(query, (error, skills) => {
       action(skills);
     });
   }
 
+  createComment(nickname, comment, postId, action) {
+    const query = `INSERT INTO comments (nickname, comment, postId) VALUES (?, ?, ?)`;
+    const values = [nickname, comment, postId];
+    this.db.run(query, values, action);
+  }
+
+  getComments(postId, post, action) {
+    const query = `SELECT * FROM comments WHERE postId = ?`;
+    const values = [postId];
+    this.db.all(query, values, (error, comments) => {
+      action(post, comments);
+    });
+  }
 }
 
 const database = new dbAPI();
