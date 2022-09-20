@@ -14,8 +14,8 @@
         </div>
     {{/if}}
         <form class="comment-form" action="/articles/comment" method="post">
-          <input placeholder="Name" class="comment-form__nickname" required type="text" name="nickname" id="">
-          <textarea placeholder="Comment" class="comment-form__comment" required name="comment" id="" rows="2" style="width: 100%">
+          <input minlength="3" maxlength="15" placeholder="Name" class="comment-form__nickname" required type="text" name="nickname" id="">
+          <textarea minlength="5" maxlength="100" placeholder="Comment" class="comment-form__comment" required name="comment" id="" rows="2" style="width: 100%">
           </textarea>
           <input class="hidden" type="text" name="postId" value="{{post.id}}" id="">
           <button class="comment-form__submit" type="submit">Add comment {{ post.id }}</button>

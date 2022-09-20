@@ -1,6 +1,6 @@
 <h1>Create post</h1>
 <form action="/portfolio/edit" method="post" class="skill-form">
-  <input required type="text" placeholder="Skill title" class="skill-form__title" name="title">
+  <input minlength="3" maxlength="20" required type="text" placeholder="Skill title" class="skill-form__title" name="title">
   <input required type="range" placeholder="Skill range" min="0" max="5" class="skill-form__range" name="skill">
   <button type="submit" class="skill-form__submit">Add new skill</button>
 </form>
