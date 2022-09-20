@@ -38,3 +38,29 @@
 .article__title {
   text-align: center;
 }
+
+.article__form-text {
+  outline: none;
+  margin-bottom: 15px;
+}
+
+#image-input {
+  margin-bottom: 15px;
+}
+
+.article-form__title {
+  margin-bottom: 15px;
+  outline: none;
+}
+
+.article-form__submit:hover {
+  cursor: pointer;
+}
+
+.article-form {
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+}

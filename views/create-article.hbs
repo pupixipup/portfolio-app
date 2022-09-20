@@ -1,7 +1,7 @@
 <h1>Create post</h1>
 <form action="/articles/create" method="post" class="article-form" enctype="multipart/form-data">
   <input required type="text" class="article-form__title" name="title">
-  <input required type="text" class="article-form__text" name="text">
+  <textarea required class="article__form-text" name="text" cols="15" rows="10"></textarea>
   <input required type="file" id="image-input" name="imageUrl" accept="image/jpeg, image/png, image/jpg">
   <button type="submit" class="article-form__submit">Create new post</button>
 </form>
