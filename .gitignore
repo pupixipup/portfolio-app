@@ -6,3 +6,6 @@ node_modules
 /public/uploads
 # ignore database
 app-database.db
+# ignore all dbs
+*.db
+*Db.*
