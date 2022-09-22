@@ -4,6 +4,7 @@ const path = require('path');
 const multer = require('multer');
 const expressHandlebars = require('express-handlebars');
 const { createVerify } = require('crypto');
+const session = require('express-session');
 
 const app = express();
 
