@@ -2,12 +2,11 @@
 <div class="portfolio">
   <h3>Portfolio</h3>
     {{#if errorMessages.length}}
-    <div class="errors">
-      <h4>Error occured!</h4>
+    <ul class="errors">
       {{#each errorMessages}}
-        <p class="error">{{this}}</p>
+        <li class="error">{{this}}</li>
       {{/each}}
-    </div>
+    </ul>
     {{/if}}
   <div class="skills">
     <h4 class="skills__title">Skills</h4>

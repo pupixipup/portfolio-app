@@ -19,14 +19,13 @@ app.use(
   })
 )
 
-app.use(
-  expressSession({
-    saveUninitialized: false,
-    resave: false,
-    secret: 'secret'
-  })
-
-)
+// app.use(
+//   expressSession({
+//     saveUninitialized: false,
+//     resave: false,
+//     secret: 'secret'
+//   })
+// )
 
 let storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -95,12 +94,10 @@ app.post('/portfolio/edit', (request, response) => {
   const skill = request.body.skill;
 
   const errorMessages = [];
-  if (title === "") {
-    errorMessages.push("Title is required");
+  if (title === "" || isNaN(skill) || title.length > 20) {
+    errorMessages.push("All fields are required and should be less than 20 chars");
   } if (skill <= 0 && skill > 5) {
     errorMessages.push("Skill shoule be greater than 0 and less than 6"); 
-  } if (!skill || isNaN(skill)) {
-    errorMessages.push ("Skill is required");
   }
 
   if (errorMessages.length === 0) {
@@ -132,7 +129,7 @@ app.post('/articles/comment', function(request, response) {
   const nickname = request.body.nickname;
   const comment = request.body.comment;
   const postId = request.body.postId;
-  if (nickname && comment && postId) {
+  if (nickname && comment && postId && nickname.length < 20 && comment.length <= 100) {
     dbAPI.createComment(nickname, comment, postId, () => {
       response.redirect(`/articles/${postId}`);
     });
@@ -142,16 +139,31 @@ app.post('/articles/comment', function(request, response) {
 app.post('/articles/create', upload.single('imageUrl'), function(request, response){
   const title = request.body.title;
   const text = request.body.text;
-  const imageUrl = request.file.filename;
+  let imageUrl;
+  if (request.file) {
+    imageUrl = request.file.filename;
+  }
 
   const errorMessages = [];
-  if (title.length < constants.ARTICLE_TITLE_MINLENGTH) {
-  
-  if (title && text && imageUrl) {
+  if (title.length < constants.ARTICLE_TITLE_MINLENGTH || text.length <= constants.ARTICLE_TEXT_MINLENGTH) {
+    errorMessages.push('Please, write detailed title and text.');
+  } if (title.length > constants.ARTICLE_TITLE_MAXLENGTH) {
+    errorMessages.push('Title should not be too big');
+  } if (!title || !text || !imageUrl) {
+    errorMessages.push('All fields are required!');
+  }
+  if (errorMessages.length) {
+    response.render('create-article.hbs', { errorMessages });
+    return;
+  }
+
   dbAPI.createPost(title, text, imageUrl, function(error){
+    if (error) {
+      errorMessages.push('Internal Error');
+      response.render('create-article.hbs', { errorMessages });
+  }
     response.redirect('/articles');
   });
-}
 });
 
 app.get('/error', function(request, response){
