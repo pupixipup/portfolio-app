@@ -1,5 +1,7 @@
 <h3>Articles</h3>
+{{#if isLoggedIn}}
 <a href="/articles/create">Create new post</a>
+{{/if}}
 {{#if posts.length}}
   <div class="articles">
     <div class="articles__wrapper">

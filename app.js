@@ -4,7 +4,7 @@ const path = require('path');
 const multer = require('multer');
 const expressHandlebars = require('express-handlebars');
 const { createVerify } = require('crypto');
-const session = require('express-session');
+const expressSession = require('express-session');
 const constants = require('./constants.js');
 
 const app = express();
@@ -19,13 +19,13 @@ app.use(
   })
 )
 
-// app.use(
-//   expressSession({
-//     saveUninitialized: false,
-//     resave: false,
-//     secret: 'secret'
-//   })
-// )
+app.use(
+  expressSession({
+    saveUninitialized: false,
+    resave: false,
+    secret: 'secret'
+  })
+)
 
 let storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -58,7 +58,7 @@ app.get('/', function(request, response){
 app.get('/articles', function(request, response) {
   dbAPI.getPosts(function(posts) {
     if (posts) {
-    response.render("articles.hbs", { posts });
+    response.render("articles.hbs", { posts, isLoggedIn: request.session.isLoggedIn });
     } else {
       response.redirect('/error');
     }
@@ -72,7 +72,7 @@ app.get('/articles/create', function(request, response) {
 app.get('/portfolio', function(request, response) {
   dbAPI.getPortfolioSkills(function(skills) {
     if (skills) {
-      response.render("portfolio.hbs", { skills });
+      response.render("portfolio.hbs", { skills, isLoggedIn: request.session.isLoggedIn });
     } else {
       response.redirect('/error');
     }
@@ -175,20 +175,25 @@ app.get('/404', function(request, response){
   response.render('404-page-not-found.hbs');
 });
 
-app.get('*', function(req, res){
-  res.status(404).redirect('/404');
-});
-
 app.get('/login', function(request, response){ 
-  response.render('login.hbs');
+  response.render('login.hbs', { isLoggedIn: request.session.isLoggedIn });
 });
 
 app.post('/login', function(request, response){ 
-  const username = request.body.username;
-  if (username === constants.ADMIN_USERNAME && password === constants.ADMIN_PASSWORD) {
-  request.session.isLoggedIn = true;
-  response.redirect('/');
-}
+  const username = request.body.username
+	const password = request.body.password
+	
+	if(username == constants.ADMIN_USERNAME && password == constants.ADMIN_PASSWORD){
+		request.session.isLoggedIn = true
+		response.redirect("/")
+	} else {
+			const model = { failedToLogin: true }
+		response.render('login.hbs', model)
+	}
+});
+
+app.get('*', function(req, res){
+  res.status(404).redirect('/404');
 });
 
 app.listen(8080)
