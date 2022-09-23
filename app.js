@@ -51,7 +51,7 @@ app.get('/articles', function(request, response) {
     if (posts) {
     response.render("articles.hbs", { posts });
     } else {
-      response.render('error.hbs');
+      response.redirect('/error');
     }
   });
 });
@@ -65,7 +65,7 @@ app.get('/portfolio', function(request, response) {
     if (skills) {
       response.render("portfolio.hbs", { skills });
     } else {
-      response.render("error.hbs");
+      response.redirect('/error');
     }
   });
 });
@@ -116,6 +116,11 @@ app.post('/articles/create', upload.single('imageUrl'), function(request, respon
   });
 }
 });
+
+app.get('/error', function(request, response){
+  response.render('error.hbs');
+});
+
 
 app.get('/404', function(request, response){
   response.render('404-page-not-found.hbs');
