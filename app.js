@@ -87,7 +87,8 @@ app.get('/articles/:id', function(request, response) {
   dbAPI.getPost(id, function(post, comments) {
     if (post) {
       response.render("article.hbs", { post, comments });
-    } else {
+    }
+     else {
       response.render("404-page-not-found.hbs");
     }
   });
@@ -114,6 +115,14 @@ app.post('/articles/create', upload.single('imageUrl'), function(request, respon
     response.redirect('/articles');
   });
 }
+});
+
+app.get('/404', function(request, response){
+  response.render('404-page-not-found.hbs');
+});
+
+app.get('*', function(req, res){
+  res.status(404).redirect('/404');
 });
 
 app.listen(8080)
