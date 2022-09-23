@@ -8,10 +8,15 @@
 }
 
 .skill-form {
+  margin-top: 35px;
   max-width: 300px;
   display: flex;
   flex-direction: column;
   gap: 25px;
+}
+
+.skills__item-name {
+  min-width: 150px;
 }
 
 .skill-form__title {

@@ -5,6 +5,7 @@ const multer = require('multer');
 const expressHandlebars = require('express-handlebars');
 const { createVerify } = require('crypto');
 const session = require('express-session');
+const constants = require('./constants.js');
 
 const app = express();
 
@@ -16,6 +17,15 @@ app.use(
   express.urlencoded({
     extended: false
   })
+)
+
+app.use(
+  expressSession({
+    saveUninitialized: false,
+    resave: false,
+    secret: 'secret'
+  })
+
 )
 
 let storage = multer.diskStorage({
@@ -71,15 +81,39 @@ app.get('/portfolio', function(request, response) {
 });
 
 app.get('/portfolio/edit', (request, response) => {
-  response.render("edit-portfolio.hbs");
+  dbAPI.getPortfolioSkills(function(skills) {
+    if (skills) {
+      response.render("edit-portfolio.hbs", { skills });
+    } else {
+      response.redirect('/error');
+    }
+  });
 });
 
 app.post('/portfolio/edit', (request, response) => {
-  if (request.body.title && request.body.skill) {
-  dbAPI.createPortfolioSkill(request.body.title, request.body.skill, () => {
-    response.redirect('/portfolio');
-  });
-}
+  const title = request.body.title;
+  const skill = request.body.skill;
+
+  const errorMessages = [];
+  if (title === "") {
+    errorMessages.push("Title is required");
+  } if (skill <= 0 && skill > 5) {
+    errorMessages.push("Skill shoule be greater than 0 and less than 6"); 
+  } if (!skill || isNaN(skill)) {
+    errorMessages.push ("Skill is required");
+  }
+
+  if (errorMessages.length === 0) {
+    dbAPI.createPortfolioSkill(title, skill, (error) => {
+      if (error) {
+        errorMessages.push('Internal Server Error');
+        response.render('edit-portfolio.hbs', { errorMessages });
+      }
+      response.redirect('/portfolio');
+    });
+  } else {
+    response.render('edit-portfolio.hbs', { errorMessages });
+  }
 });
 
 app.get('/articles/:id', function(request, response) {
@@ -109,9 +143,12 @@ app.post('/articles/create', upload.single('imageUrl'), function(request, respon
   const title = request.body.title;
   const text = request.body.text;
   const imageUrl = request.file.filename;
+
+  const errorMessages = [];
+  if (title.length < constants.ARTICLE_TITLE_MINLENGTH) {
   
   if (title && text && imageUrl) {
-  dbAPI.createPost(title, text, imageUrl, function(){
+  dbAPI.createPost(title, text, imageUrl, function(error){
     response.redirect('/articles');
   });
 }
@@ -128,6 +165,18 @@ app.get('/404', function(request, response){
 
 app.get('*', function(req, res){
   res.status(404).redirect('/404');
+});
+
+app.get('/login', function(request, response){ 
+  response.render('login.hbs');
+});
+
+app.post('/login', function(request, response){ 
+  const username = request.body.username;
+  if (username === constants.ADMIN_USERNAME && password === constants.ADMIN_PASSWORD) {
+  request.session.isLoggedIn = true;
+  response.redirect('/');
+}
 });
 
 app.listen(8080)
