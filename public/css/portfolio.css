@@ -33,6 +33,20 @@
   background: #d5d1d1;
 }
 
+.skill-delete {
+  background: #eae5e5;
+  box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.35);
+  border: none;
+  padding: 2px 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.skill-delete:hover {
+  transition: .3s;
+  opacity: .7;
+}
+
 .inner-bar {
   width: 75%;
   height: 5px;

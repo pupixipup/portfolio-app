@@ -1,78 +1,77 @@
 const express = require('express');
-const dbAPI = require('./dbAPI.js');
 const path = require('path');
 const multer = require('multer');
 const expressHandlebars = require('express-handlebars');
-const { createVerify } = require('crypto');
+// const { createVerify } = require('crypto');
 const expressSession = require('express-session');
-const constants = require('./constants.js');
+const dbAPI = require('./dbAPI');
+const constants = require('./constants');
 
 const app = express();
 
-app.engine("hbs", expressHandlebars.engine({
-  defaultLayout: 'main.hbs'
-}))
+app.engine('hbs', expressHandlebars.engine({
+  defaultLayout: 'main.hbs',
+}));
 
 app.use(
   express.urlencoded({
-    extended: false
-  })
-)
+    extended: false,
+  }),
+);
 
 app.use(
   expressSession({
     saveUninitialized: false,
     resave: false,
-    secret: 'secret'
-  })
-)
+    secret: 'secret',
+  }),
+);
 
-let storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    cb(null, "./public/uploads");
+const storage = multer.diskStorage({
+  destination(req, file, cb) {
+    cb(null, './public/uploads');
   },
-  filename: function(req, file, cb) {
+  filename(req, file, cb) {
     cb(null, file.originalname);
-  }
+  },
 });
 
-let upload = multer({
-  storage: storage
-})
+const upload = multer({
+  storage,
+});
 
 app.use(express.static(path.join(__dirname, '/public')));
 
-app.get('/about', function(request, response){
-  response.render("about.hbs")
-})
+app.get('/about', (request, response) => {
+  response.render('about.hbs');
+});
 
-app.get('/contacts', function(request, response){
-    response.render("contacts.hbs")
-})
+app.get('/contacts', (request, response) => {
+  response.render('contacts.hbs');
+});
 
-app.get('/', function(request, response){
-  response.render("home.hbs")
-})
+app.get('/', (request, response) => {
+  response.render('home.hbs');
+});
 
-
-app.get('/articles', function(request, response) {
-  dbAPI.getPosts(function(posts) {
+app.get('/articles', (request, response) => {
+  dbAPI.getPosts((posts) => {
     if (posts) {
-    response.render("articles.hbs", { posts, isLoggedIn: request.session.isLoggedIn });
+      response.render('articles.hbs', { posts, isLoggedIn: request.session.isLoggedIn });
     } else {
       response.redirect('/error');
     }
   });
 });
 
-app.get('/articles/create', function(request, response) {
-  response.render("create-article.hbs")
+app.get('/articles/create', (request, response) => {
+  response.render('create-article.hbs');
 });
 
-app.get('/portfolio', function(request, response) {
-  dbAPI.getPortfolioSkills(function(skills) {
+app.get('/portfolio', (request, response) => {
+  dbAPI.getPortfolioSkills((skills) => {
     if (skills) {
-      response.render("portfolio.hbs", { skills, isLoggedIn: request.session.isLoggedIn });
+      response.render('portfolio.hbs', { skills, isLoggedIn: request.session.isLoggedIn });
     } else {
       response.redirect('/error');
     }
@@ -80,9 +79,9 @@ app.get('/portfolio', function(request, response) {
 });
 
 app.get('/portfolio/edit', (request, response) => {
-  dbAPI.getPortfolioSkills(function(skills) {
+  dbAPI.getPortfolioSkills((skills) => {
     if (skills) {
-      response.render("edit-portfolio.hbs", { skills });
+      response.render('edit-portfolio.hbs', { skills });
     } else {
       response.redirect('/error');
     }
@@ -90,14 +89,14 @@ app.get('/portfolio/edit', (request, response) => {
 });
 
 app.post('/portfolio/edit', (request, response) => {
-  const title = request.body.title;
-  const skill = request.body.skill;
+  const { title } = request.body;
+  const { skill } = request.body;
 
   const errorMessages = [];
-  if (title === "" || isNaN(skill) || title.length > 20) {
-    errorMessages.push("All fields are required and should be less than 20 chars");
+  if (title === '' || Number.isNaN(skill) || title.length > 20) {
+    errorMessages.push('All fields are required and should be less than 20 chars');
   } if (skill <= 0 && skill > 5) {
-    errorMessages.push("Skill shoule be greater than 0 and less than 6"); 
+    errorMessages.push('Skill shoule be greater than 0 and less than 6');
   }
 
   if (errorMessages.length === 0) {
@@ -113,22 +112,21 @@ app.post('/portfolio/edit', (request, response) => {
   }
 });
 
-app.get('/articles/:id', function(request, response) {
-  const id = request.params.id;
-  dbAPI.getPost(id, function(post, comments) {
+app.get('/articles/:id', (request, response) => {
+  const { id } = request.params;
+  dbAPI.getPost(id, (post, comments) => {
     if (post) {
-      response.render("article.hbs", { post, comments });
-    }
-     else {
-      response.render("404-page-not-found.hbs");
+      response.render('article.hbs', { post, comments });
+    } else {
+      response.render('404-page-not-found.hbs');
     }
   });
 });
 
-app.post('/articles/comment', function(request, response) {
-  const nickname = request.body.nickname;
-  const comment = request.body.comment;
-  const postId = request.body.postId;
+app.post('/articles/comment', (request, response) => {
+  const { nickname } = request.body;
+  const { comment } = request.body;
+  const { postId } = request.body;
   if (nickname && comment && postId && nickname.length < 20 && comment.length <= 100) {
     dbAPI.createComment(nickname, comment, postId, () => {
       response.redirect(`/articles/${postId}`);
@@ -136,16 +134,17 @@ app.post('/articles/comment', function(request, response) {
   }
 });
 
-app.post('/articles/create', upload.single('imageUrl'), function(request, response){
-  const title = request.body.title;
-  const text = request.body.text;
+app.post('/articles/create', upload.single('imageUrl'), (request, response) => {
+  const { title } = request.body;
+  const { text } = request.body;
   let imageUrl;
   if (request.file) {
     imageUrl = request.file.filename;
   }
 
   const errorMessages = [];
-  if (title.length < constants.ARTICLE_TITLE_MINLENGTH || text.length <= constants.ARTICLE_TEXT_MINLENGTH) {
+  if (title.length < constants.ARTICLE_TITLE_MINLENGTH
+    || text.length <= constants.ARTICLE_TEXT_MINLENGTH) {
     errorMessages.push('Please, write detailed title and text.');
   } if (title.length > constants.ARTICLE_TITLE_MAXLENGTH) {
     errorMessages.push('Title should not be too big');
@@ -157,45 +156,56 @@ app.post('/articles/create', upload.single('imageUrl'), function(request, respon
     return;
   }
 
-  dbAPI.createPost(title, text, imageUrl, function(error){
+  dbAPI.createPost(title, text, imageUrl, (error) => {
     if (error) {
       errorMessages.push('Internal Error');
       response.render('create-article.hbs', { errorMessages });
-  }
+    }
     response.redirect('/articles');
   });
 });
 
-app.get('/error', function(request, response){
+app.get('/error', (request, response) => {
   response.render('error.hbs');
 });
 
-
-app.get('/404', function(request, response){
+app.get('/404', (request, response) => {
   response.render('404-page-not-found.hbs');
 });
 
-app.get('/login', function(request, response){ 
+app.get('/login', (request, response) => {
   response.render('login.hbs', { isLoggedIn: request.session.isLoggedIn });
 });
 
-app.post('/login', function(request, response){ 
-  const username = request.body.username
-	const password = request.body.password
-	
-	if(username == constants.ADMIN_USERNAME && password == constants.ADMIN_PASSWORD){
-		request.session.isLoggedIn = true
-		response.redirect("/")
-	} else {
-			const model = { failedToLogin: true }
-		response.render('login.hbs', model)
-	}
+app.post('/portfolio/remove/:id', (request, response) => {
+  const { id } = request.params;
+  dbAPI.deleteSkill(id, (error) => {
+    if (error) {
+      console.log(error);
+      response.render('error.hbs');
+    } else {
+      response.redirect('/portfolio');
+    }
+  });
 });
 
-app.get('*', function(req, res){
+app.post('/login', (request, response) => {
+  const { username } = request.body;
+  const { password } = request.body;
+
+  if (username === constants.ADMIN_USERNAME && password === constants.ADMIN_PASSWORD) {
+    request.session.isLoggedIn = true;
+    response.redirect('/');
+  } else {
+    const model = { failedToLogin: true };
+    response.render('login.hbs', model);
+  }
+});
+
+app.get('*', (req, res) => {
   res.status(404).redirect('/404');
 });
 
-app.listen(8080)
+app.listen(8080);
 
-console.log("Server is running on http://localhost:8080")
+console.log('Server is running on http://localhost:8080');

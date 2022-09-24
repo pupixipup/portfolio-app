@@ -18,8 +18,8 @@
           <div class="skills__item-bar">
             <div class="inner-bar skill-{{skill}}"></div>
           </div>
-          <form action="" method="post">
-            <button type="submit">x</button>
+          <form action="/portfolio/remove/{{id}}" method="post">
+            <button class="skill-delete" type="submit">&#10060;</button>
           </form>
         </div>  
         {{/each}}    
