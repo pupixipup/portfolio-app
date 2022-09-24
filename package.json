@@ -17,6 +17,9 @@
     "sqlite3": "^5.1.1"
   },
   "devDependencies": {
+    "eslint": "^8.24.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
     "express-session": "^1.17.3"
   }
 }
