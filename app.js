@@ -55,12 +55,21 @@ app.get('/', (request, response) => {
 });
 
 app.get('/articles', (request, response) => {
-  dbAPI.getPosts((posts) => {
-    if (posts) {
-      response.render('articles.hbs', { posts, isLoggedIn: request.session.isLoggedIn });
-    } else {
-      response.redirect('/error');
+  const page = request.query.page || 0;
+  dbAPI.getPostsCount((count) => {
+    const postsTotalCount = count['COUNT(*)'];
+    const pagesTotalCount = Math.ceil(postsTotalCount / 5);
+    const pages = [];
+    for (let i = 1; i <= pagesTotalCount; i += 1) {
+      pages.push(i);
     }
+    dbAPI.getPosts(page, (posts) => {
+      if (posts) {
+        response.render('articles.hbs', { posts, isLoggedIn: request.session.isLoggedIn, pages });
+      } else {
+        response.redirect('/error');
+      }
+    });
   });
 });
 

@@ -66,6 +66,17 @@
  gap: 10px;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.pagination__item {
+  padding: 2px 10px;
+  border:1px solid rgb(104, 121, 200);
+}
+
 .comment-form__nickname {
   padding: 0 5px;
   margin-bottom: 15px;

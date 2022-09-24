@@ -32,10 +32,20 @@ class DBAPI {
     `);
   }
 
-  getPosts(action) {
-    const query = 'SELECT * FROM posts';
-    this.db.all(query, (error, posts) => {
+  getPosts(page, action) {
+    console.log(page);
+    const offset = (page - 1) * 5 || 0;
+    console.log(offset);
+    const query = 'SELECT * FROM posts LIMIT 5 OFFSET ?';
+    this.db.all(query, [offset], (error, posts) => {
       action(posts);
+    });
+  }
+
+  getPostsCount(action) {
+    const query = 'SELECT COUNT(*) FROM posts';
+    this.db.get(query, (error, count) => {
+      action(count);
     });
   }
 

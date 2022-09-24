@@ -7,6 +7,13 @@
     <button type="submit">Search</button> 
   </form>
 {{#if posts.length}}
+{{#if pages.length}}
+  <div class="pagination">
+ {{#each pages}}
+    <a class="pagination__item" href="/articles?page={{this}}">{{this}}</a>
+  {{/each}}
+  </div>
+  {{/if}}
   <div class="articles">
     <div class="articles__wrapper">
       {{#each posts}}
@@ -19,6 +26,13 @@
       {{/each}}
     </div>
   </div>
+  {{#if pages.length}}
+  <div class="pagination">
+ {{#each pages}}
+    <a class="pagination__item" href="/articles?page={{this}}">{{this}}</a>
+  {{/each}}
+  </div>
+  {{/if}}
   {{else}}
   <h1 class="articles__title">No posts yet!</h1>
 {{/if}}
