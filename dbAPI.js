@@ -33,9 +33,7 @@ class DBAPI {
   }
 
   getPosts(page, action) {
-    console.log(page);
     const offset = (page - 1) * 5 || 0;
-    console.log(offset);
     const query = 'SELECT * FROM posts LIMIT 5 OFFSET ?';
     this.db.all(query, [offset], (error, posts) => {
       action(posts);
@@ -97,7 +95,6 @@ class DBAPI {
   }
 
   searchPosts(search, action) {
-    console.log(search);
     const query = `SELECT * FROM posts WHERE title LIKE '%${search}%'`;
     this.db.all(query, (error, posts) => {
       action(posts);
