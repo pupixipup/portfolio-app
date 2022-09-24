@@ -85,6 +85,14 @@ class DBAPI {
     const values = [id];
     this.db.run(query, values, action);
   }
+
+  searchPosts(search, action) {
+    console.log(search);
+    const query = `SELECT * FROM posts WHERE title LIKE '%${search}%'`;
+    this.db.all(query, (error, posts) => {
+      action(posts);
+    });
+  }
 }
 
 const database = new DBAPI();

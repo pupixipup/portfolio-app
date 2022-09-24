@@ -61,6 +61,11 @@
   margin-bottom: 15px;
 }
 
+.articles-form {
+ display: flex;
+ gap: 10px;
+}
+
 .comment-form__nickname {
   padding: 0 5px;
   margin-bottom: 15px;

@@ -189,6 +189,17 @@ app.post('/portfolio/remove/:id', (request, response) => {
   });
 });
 
+app.get('/search-articles', (request, response) => {
+  const { search } = request.query;
+  dbAPI.searchPosts(search, (posts) => {
+    if (posts) {
+      response.render('articles.hbs', { posts, isLoggedIn: request.session.isLoggedIn });
+    } else {
+      response.redirect('/error');
+    }
+  });
+});
+
 app.post('/login', (request, response) => {
   const { username } = request.body;
   const { password } = request.body;
@@ -202,9 +213,9 @@ app.post('/login', (request, response) => {
   }
 });
 
-app.get('*', (req, res) => {
-  res.status(404).redirect('/404');
-});
+// app.get('*', (req, res) => {
+//   res.status(404).redirect('/404');
+// });
 
 app.listen(8080);
 

@@ -2,6 +2,10 @@
 {{#if isLoggedIn}}
 <a href="/articles/create">Create new post</a>
 {{/if}}
+  <form class="articles-form" action="/search-articles" method="get">
+    <input type="text" name="search" placeholder="Search"/>
+    <button type="submit">Search</button> 
+  </form>
 {{#if posts.length}}
   <div class="articles">
     <div class="articles__wrapper">
@@ -15,4 +19,6 @@
       {{/each}}
     </div>
   </div>
+  {{else}}
+  <h1 class="articles__title">No posts yet!</h1>
 {{/if}}
