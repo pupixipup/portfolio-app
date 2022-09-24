@@ -102,8 +102,8 @@ app.post('/portfolio/edit', (request, response) => {
   const { skill } = request.body;
 
   const errorMessages = [];
-  if (title === '' || Number.isNaN(skill) || title.length > 20) {
-    errorMessages.push('All fields are required and should be less than 20 chars');
+  if (title === '' || Number.isNaN(skill) || title.length > constants.SKILL_TITLE_MAXLENGTH || title.length < constants.SKILL_TITLE_MINLENGTH) {
+    errorMessages.push('All fields are required and should be less than 15 chars');
   } if (skill <= 0 && skill > 5) {
     errorMessages.push('Skill shoule be greater than 0 and less than 6');
   }
