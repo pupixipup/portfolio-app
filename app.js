@@ -146,10 +146,13 @@ app.post('/articles/comment', (request, response) => {
   const { nickname } = request.body;
   const { comment } = request.body;
   const { postId } = request.body;
-  if (nickname && comment && postId && nickname.length < 20 && comment.length <= 100) {
+  console.log(comment);
+  if (nickname.trim('') && comment.trim('') && postId && nickname.length < 20 && comment.length <= 100 && comment.length >= 5) {
     dbAPI.createComment(nickname, comment, postId, () => {
       response.redirect(`/articles/${postId}`);
     });
+  } else {
+    response.redirect('/error');
   }
 });
 
