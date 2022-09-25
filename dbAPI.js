@@ -47,6 +47,13 @@ class DBAPI {
     });
   }
 
+  deletePost(id, action) {
+    const query = 'DELETE FROM posts WHERE id = ?';
+    this.db.run(query, [id], (error) => {
+      action(error);
+    });
+  }
+
   getPost(id, action) {
     const query = 'SELECT * FROM posts WHERE id = ?';
     const values = [id];

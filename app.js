@@ -125,10 +125,20 @@ app.get('/articles/:id', (request, response) => {
   const { id } = request.params;
   dbAPI.getPost(id, (post, comments) => {
     if (post) {
-      response.render('article.hbs', { post, comments });
+      response.render('article.hbs', { post, comments, isLoggedIn: request.session.isLoggedIn });
     } else {
       response.render('404-page-not-found.hbs');
     }
+  });
+});
+
+app.post('/articles/:id/delete', (request, response) => {
+  const { id } = request.params;
+  dbAPI.deletePost(id, (error) => {
+    if (error) {
+      response.redirect('/error');
+    }
+    response.redirect('/articles');
   });
 });
 

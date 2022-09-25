@@ -1,5 +1,10 @@
 <div class="article">
   <div class="article__wrapper">
+    {{#if isLoggedIn}}
+    <form action="/articles/{{post.id}}/delete" method="post">
+    <button type="submit">Delete article</button>
+    </form>
+    {{/if}}
     <img src="/uploads/{{post.imageUrl}}" alt="" class="article__img">
     <h3 class="article__title">{{post.title}}</h3>
     <p class="article__text">{{post.description}}</p>
