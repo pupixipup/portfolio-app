@@ -87,6 +87,12 @@ class DBAPI {
     this.db.run(query, values, action);
   }
 
+  deleteComment(id, action) {
+    const query = 'DELETE FROM comments WHERE id = ?';
+    const values = [id];
+    this.db.run(query, values, action);
+  }
+
   getComments(postId, post, action) {
     const query = 'SELECT * FROM comments WHERE postId = ?';
     const values = [postId];

@@ -153,6 +153,17 @@ app.post('/articles/comment', (request, response) => {
   }
 });
 
+app.post('/articles/comment/:id/delete', (request, response) => {
+  const { id } = request.params;
+  if (id) {
+    dbAPI.deleteComment(id, () => {
+      response.redirect('/articles');
+    });
+  } else {
+    response.redirect('/error');
+  }
+});
+
 app.post('/articles/create', upload.single('imageUrl'), (request, response) => {
   const { title } = request.body;
   const { text } = request.body;

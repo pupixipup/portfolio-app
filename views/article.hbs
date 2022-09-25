@@ -12,6 +12,11 @@
       <div class="comments">
         {{#each comments}}
           <div class="comment">
+            {{#if ../isLoggedIn}}
+            <form class="comment__form" action="/articles/comment/{{ id }}/delete" method="post">
+            <button type="submit">&#10060;</button>   
+            </form>
+            {{/if}}
             <h5 class="comment__nickname">{{ nickname }}</h5>
             <p class="comment__text">{{ comment }}</p>
           </div>
