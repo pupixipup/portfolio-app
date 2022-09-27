@@ -234,14 +234,27 @@ app.get('/portfolio-update/:id', (request, response) => {
   const { id } = request.params;
   const { skill } = request.query;
   const { title } = request.query;
-  dbAPI.updateSkill(skill, title, id, (error) => {
-    if (error) {
-      console.log(error);
-      response.render('error.hbs');
-    } else {
-      response.redirect('/portfolio');
-    }
-  });
+  const errorMessages = [];
+  if (Number.isNaN(skill) || title.length > constants.SKILL_TITLE_MAXLENGTH
+   || title.length < constants.SKILL_TITLE_MINLENGTH) {
+    errorMessages.push('All fields are required and should be less than 15 chars');
+  } if (skill <= 0 && skill > 5) {
+    errorMessages.push('Skill shoule be greater than 0 and less than 6');
+  }
+  if (errorMessages.length === 0) {
+    dbAPI.updateSkill(skill, title, id, (error) => {
+      if (error) {
+        console.log(error);
+        response.render('error.hbs');
+      } else {
+        response.redirect('/portfolio');
+      }
+    });
+  } else {
+    response.render('update-portfolio.hbs', {
+      title, id, skill, isLoggedIn: request.session.isLoggedIn, errorMessages,
+    });
+  }
 });
 
 app.get('/search-articles', (request, response) => {
