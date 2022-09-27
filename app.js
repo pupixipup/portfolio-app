@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 const multer = require('multer');
 const expressHandlebars = require('express-handlebars');
-// const { createVerify } = require('crypto');
 const expressSession = require('express-session');
 const dbAPI = require('./dbAPI');
 const constants = require('./constants');
@@ -210,9 +209,32 @@ app.get('/login', (request, response) => {
   response.render('login.hbs', { isLoggedIn: request.session.isLoggedIn });
 });
 
+app.get('/update-portfolio', (request, response) => {
+  const { title } = request.query;
+  const { id } = request.query;
+  const { skill } = request.query;
+  response.render('update-portfolio.hbs', {
+    title, id, skill, isLoggedIn: request.session.isLoggedIn,
+  });
+});
+
 app.post('/portfolio/remove/:id', (request, response) => {
   const { id } = request.params;
   dbAPI.deleteSkill(id, (error) => {
+    if (error) {
+      console.log(error);
+      response.render('error.hbs');
+    } else {
+      response.redirect('/portfolio');
+    }
+  });
+});
+
+app.get('/portfolio-update/:id', (request, response) => {
+  const { id } = request.params;
+  const { skill } = request.query;
+  const { title } = request.query;
+  dbAPI.updateSkill(skill, title, id, (error) => {
     if (error) {
       console.log(error);
       response.render('error.hbs');

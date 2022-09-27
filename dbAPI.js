@@ -107,6 +107,12 @@ class DBAPI {
     this.db.run(query, values, action);
   }
 
+  updateSkill(skill, title, id, action) {
+    console.log(skill, id);
+    const query = 'UPDATE portfolio SET skill = ?, title = ? WHERE id = ?';
+    this.db.run(query, [skill, title, id], action);
+  }
+
   searchPosts(search, action) {
     const query = `SELECT * FROM posts WHERE title LIKE '%${search}%'`;
     this.db.all(query, (error, posts) => {

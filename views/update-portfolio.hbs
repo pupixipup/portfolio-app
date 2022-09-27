@@ -1,0 +1,9 @@
+{{#if isLoggedIn}}
+<div class="skills__wrapper">
+        <form action="/portfolio-update/{{id}}" type="post" class="skills__item">
+          <input required type="text" placeholder="Skill" value="{{title}}" class="skill-form_title" name="title">
+         <input required type="range" placeholder="Skill range" value="{{skill}}" min="0" max="5" class="skill-form__range" name="skill">
+          <button type="submit">Change skill</button>
+        </form>     
+    </div>
+{{/if}}
