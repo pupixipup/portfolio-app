@@ -3,6 +3,7 @@ const path = require('path');
 const multer = require('multer');
 const expressHandlebars = require('express-handlebars');
 const expressSession = require('express-session');
+const bcrypt = require('bcryptjs');
 const dbAPI = require('./dbAPI');
 const constants = require('./constants');
 
@@ -145,7 +146,6 @@ app.post('/articles/comment', (request, response) => {
   const { nickname } = request.body;
   const { comment } = request.body;
   const { postId } = request.body;
-  console.log(comment);
   if (nickname.trim('') && comment.trim('') && postId && nickname.length < 20 && comment.length <= 100 && comment.length >= 5) {
     dbAPI.createComment(nickname, comment, postId, () => {
       response.redirect(`/articles/${postId}`);
@@ -272,7 +272,8 @@ app.post('/login', (request, response) => {
   const { username } = request.body;
   const { password } = request.body;
 
-  if (username === constants.ADMIN_USERNAME && password === constants.ADMIN_PASSWORD) {
+  if (username === constants.ADMIN_USERNAME
+    && bcrypt.compareSync(password, constants.ADMIN_PASSWORD_HASH)) {
     request.session.isLoggedIn = true;
     response.redirect('/');
   } else {

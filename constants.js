@@ -4,7 +4,7 @@ const constants = {
   SKILL_TITLE_MINLENGTH: 3,
   SKILL_TITLE_MAXLENGTH: 15,
   ADMIN_USERNAME: 'romas',
-  ADMIN_PASSWORD: '12345',
+  ADMIN_PASSWORD_HASH: '$2a$10$roVdVPZQ1sd1rmDonA.AReOhSCH83e9fm/vDQn1cgNdv/jaN0PKtu',
 };
 
 module.exports = constants;
