@@ -108,7 +108,6 @@ class DBAPI {
   }
 
   updateSkill(skill, title, id, action) {
-    console.log(skill, id);
     const query = 'UPDATE portfolio SET skill = ?, title = ? WHERE id = ?';
     this.db.run(query, [skill, title, id], action);
   }
