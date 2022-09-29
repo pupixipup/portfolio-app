@@ -93,6 +93,12 @@ class DBAPI {
     this.db.run(query, values, action);
   }
 
+  editComment(id, comment, action) {
+    const query = 'UPDATE comments SET comment = ? WHERE id = ?';
+    const values = [comment, id];
+    this.db.run(query, values, action);
+  }
+
   getComments(postId, post, action) {
     const query = 'SELECT * FROM comments WHERE postId = ?';
     const values = [postId];

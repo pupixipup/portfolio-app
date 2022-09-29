@@ -155,6 +155,29 @@ app.post('/articles/comment', (request, response) => {
   }
 });
 
+app.get('/articles/comment/:id/edit', (request, response) => {
+  const { id } = request.params;
+  const { comment } = request.query;
+  if (comment.trim('') && id && comment.length <= 100 && comment.length >= 5) {
+    response.render('edit-comment.hbs', { id, comment, isLoggedIn: request.session.isLoggedIn });
+  } else {
+    response.redirect('/error');
+  }
+});
+
+app.post('/articles/comment/:id/edit', (request, response) => {
+  const { id } = request.params;
+  const { comment } = request.body;
+  // add validation here
+  if (id && comment) {
+    dbAPI.editComment(id, comment, () => {
+      response.redirect('/articles');
+    });
+  } else {
+    response.redirect('/error');
+  }
+});
+
 app.post('/articles/comment/:id/delete', (request, response) => {
   const { id } = request.params;
   if (id) {

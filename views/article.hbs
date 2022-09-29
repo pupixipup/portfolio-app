@@ -13,12 +13,15 @@
         {{#each comments}}
           <div class="comment">
             {{#if ../isLoggedIn}}
-            <form class="comment__form" action="/articles/comment/{{ id }}/delete" method="post">
-            <button type="submit">&#10060;</button>   
-            </form>
+            <div class="comment__forms"> 
+              <form class="comment__form" action="/articles/comment/{{id}}/delete" method="post">
+                <button type="submit">&#10060;</button>   
+              </form>
+              <a href="/articles/comment/{{id}}/edit?comment={{comment}}">Edit</a>
+            </div>
             {{/if}}
-            <h5 class="comment__nickname">{{ nickname }}</h5>
-            <p class="comment__text">{{ comment }}</p>
+            <h5 class="comment__nickname">{{nickname}}</h5>
+            <p class="comment__text">{{comment}}</p>
           </div>
         {{/each}}
         </div>

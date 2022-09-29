@@ -77,6 +77,12 @@
   border:1px solid rgb(104, 121, 200);
 }
 
+.comment__forms {
+  display: flex;
+  gap: 10px;
+  justify-content: end;
+}
+
 .comment-form__nickname {
   padding: 0 5px;
   margin-bottom: 15px;
