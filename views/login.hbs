@@ -1,20 +1,21 @@
 <h3>Login</h3>
 
 {{#if failedToLogin}}
-	<p>Wrong credentials!</p>
+  <p>Wrong credentials!</p>
 {{/if}}
 
 {{#if isLoggedIn}}
-You are already logged in!
+  You are already logged in!
 {{else}}
-<form class="login" action="/login" method="post">
-	<div class="login__field">
-		Username: <input class="login__field-input" type="text" name="username">
-	</div>
-	<div class="login__field">
-		Password: <input class="login__field-input" type="password" name="password">
-	</div>
-	<input type="submit" value="Login">
-</form>
+  <form class="login" action="/login" method="post">
+    <div class="login__field">
+      Username:
+      <input class="login__field-input" type="text" name="username" />
+    </div>
+    <div class="login__field">
+      Password:
+      <input class="login__field-input" type="password" name="password" />
+    </div>
+    <input type="submit" value="Login" />
+  </form>
 {{/if}}
-

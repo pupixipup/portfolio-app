@@ -1,38 +1,42 @@
 <h3>Articles</h3>
 {{#if isLoggedIn}}
-<a href="/articles/create">Create new post</a>
+  <a href="/articles/create">Create new post</a>
 {{/if}}
-  <form class="articles-form" action="/search-articles" method="get">
-    <input type="text" name="search" placeholder="Search"/>
-    <button type="submit">Search</button> 
-  </form>
+<form class="articles-form" action="/search-articles" method="get">
+  <input type="text" name="search" placeholder="Search" />
+  <button type="submit">Search</button>
+</form>
 {{#if posts.length}}
-{{#if pages.length}}
-  <div class="pagination">
- {{#each pages}}
-    <a class="pagination__item" href="/articles?page={{this}}">{{this}}</a>
-  {{/each}}
-  </div>
+  {{#if pages.length}}
+    <div class="pagination">
+      {{#each pages}}
+        <a class="pagination__item" href="/articles?page={{this}}">{{this}}</a>
+      {{/each}}
+    </div>
   {{/if}}
   <div class="articles">
     <div class="articles__wrapper">
       {{#each posts}}
         <div class="articles__item">
-          <img class="articles__item-img" src="uploads/{{imageUrl}}" alt="{{title}}"/>
+          <img
+            class="articles__item-img"
+            src="uploads/{{imageUrl}}"
+            alt="{{title}}"
+          />
           <h4>
             <a class="articles__item-title" href="articles/{{id}}">{{title}}</a>
-            </h4>
+          </h4>
         </div>
       {{/each}}
     </div>
   </div>
   {{#if pages.length}}
-  <div class="pagination">
- {{#each pages}}
-    <a class="pagination__item" href="/articles?page={{this}}">{{this}}</a>
-  {{/each}}
-  </div>
+    <div class="pagination">
+      {{#each pages}}
+        <a class="pagination__item" href="/articles?page={{this}}">{{this}}</a>
+      {{/each}}
+    </div>
   {{/if}}
-  {{else}}
+{{else}}
   <h1 class="articles__title">No posts yet!</h1>
 {{/if}}

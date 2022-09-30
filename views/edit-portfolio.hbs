@@ -1,39 +1,57 @@
 <h1>Add skill</h1>
 {{#if isLoggedIn}}
-<div class="portfolio">
-  <h3>Portfolio</h3>
+  <div class="portfolio">
+    <h3>Portfolio</h3>
     {{#if errorMessages.length}}
-    <ul class="errors">
-      {{#each errorMessages}}
-        <li class="error">{{this}}</li>
-      {{/each}}
-    </ul>
+      <ul class="errors">
+        {{#each errorMessages}}
+          <li class="error">{{this}}</li>
+        {{/each}}
+      </ul>
     {{/if}}
-  <div class="skills">
-    <h4 class="skills__title">Skills</h4>
-    {{#if skills.length}}
-    <div class="skills__wrapper">
-      {{#each skills}}
-        <div class="skills__item">
-          <h4 class="skills__item-name">{{title}}</h4>
-          <div class="skills__item-bar">
-            <div class="inner-bar skill-{{skill}}"></div>
-          </div>
-          <form action="/portfolio/remove/{{id}}" method="post">
-            <button class="skill-delete" type="submit">&#10060;</button>
-          </form>
-          <a href="/update-portfolio?title={{title}}&id={{id}}&skill={{skill}}">+</a>
-        </div>  
-        {{/each}}    
+    <div class="skills">
+      <h4 class="skills__title">Skills</h4>
+      {{#if skills.length}}
+        <div class="skills__wrapper">
+          {{#each skills}}
+            <div class="skills__item">
+              <h4 class="skills__item-name">{{title}}</h4>
+              <div class="skills__item-bar">
+                <div class="inner-bar skill-{{skill}}"></div>
+              </div>
+              <form action="/portfolio/remove/{{id}}" method="post">
+                <button class="skill-delete" type="submit">&#10060;</button>
+              </form>
+              <a
+                href="/update-portfolio?title={{title}}&id={{id}}&skill={{skill}}"
+              >+</a>
+            </div>
+          {{/each}}
+        </div>
+      {{/if}}
     </div>
-    {{/if}}
   </div>
-</div>
-<form action="/portfolio/edit" method="post" class="skill-form">
-  <input minlength="3" maxlength="15" required type="text" placeholder="Skill title" class="skill-form__title" name="title">
-  <input required type="range" placeholder="Skill range" min="0" max="5" class="skill-form__range" name="skill">
-  <button type="submit" class="skill-form__submit">Add new skill</button>
-</form>
+  <form action="/portfolio/edit" method="post" class="skill-form">
+    <input
+      minlength="3"
+      maxlength="15"
+      required
+      type="text"
+      placeholder="Skill title"
+      class="skill-form__title"
+      name="title"
+    />
+    <input
+      required
+      type="range"
+      placeholder="Skill range"
+      min="0"
+      max="5"
+      class="skill-form__range"
+      name="skill"
+    />
+    <button type="submit" class="skill-form__submit">Add new skill</button>
+  </form>
 {{else}}
-<h2>You must be logged in to edit portfolio</h2>
+  <h2>You must be logged in to edit portfolio</h2>
 {{/if}}

@@ -16,10 +16,12 @@
   justify-content: center;
 }
 
-main, footer, header  {
-max-width: 1200px;
-width: 100%;
-margin: 0 auto;
+main,
+footer,
+header {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 main {

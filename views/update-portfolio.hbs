@@ -1,18 +1,33 @@
 {{#if isLoggedIn}}
-{{#if errorMessages.length}}
+  {{#if errorMessages.length}}
     <ul class="errors">
       {{#each errorMessages}}
         <li class="error">{{this}}</li>
       {{/each}}
     </ul>
-    {{/if}}
-<div class="skills__wrapper">
-        <form action="/portfolio-update/{{id}}" type="get" class="skills__item">
-          <input type="text" placeholder="Skill" value="{{title}}" class="skill-form_title" name="title">
-         <input required type="range" placeholder="Skill range" value="{{skill}}" min="0" max="5" class="skill-form__range" name="skill">
-          <button type="submit">Change skill</button>
-        </form>     
-    </div>
+  {{/if}}
+  <div class="skills__wrapper">
+    <form action="/portfolio-update/{{id}}" type="get" class="skills__item">
+      <input
+        type="text"
+        placeholder="Skill"
+        value="{{title}}"
+        class="skill-form_title"
+        name="title"
+      />
+      <input
+        required
+        type="range"
+        placeholder="Skill range"
+        value="{{skill}}"
+        min="0"
+        max="5"
+        class="skill-form__range"
+        name="skill"
+      />
+      <button type="submit">Change skill</button>
+    </form>
+  </div>
 {{else}}
-<h2>You must be logged in to edit portfolio</h2>
+  <h2>You must be logged in to edit portfolio</h2>
 {{/if}}

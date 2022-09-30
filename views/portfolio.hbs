@@ -3,18 +3,18 @@
   <div class="skills">
     <h4 class="skills__title">Skills</h4>
     {{#if skills.length}}
-    <div class="skills__wrapper">
-      {{#each skills}}
-        <div class="skills__item">
-          <h4 class="skills__item-name">{{title}}</h4>
-          <div class="skills__item-bar">
-            <div class="inner-bar skill-{{skill}}"></div>
+      <div class="skills__wrapper">
+        {{#each skills}}
+          <div class="skills__item">
+            <h4 class="skills__item-name">{{title}}</h4>
+            <div class="skills__item-bar">
+              <div class="inner-bar skill-{{skill}}"></div>
+            </div>
           </div>
-        </div>  
-        {{/each}}    
-    </div>
+        {{/each}}
+      </div>
     {{/if}}
-     {{#if isLoggedIn}}
+    {{#if isLoggedIn}}
       <a href="/portfolio/edit">Edit portfolio</a>
     {{/if}}
   </div>

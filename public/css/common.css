@@ -1,3 +1,4 @@
-*, *:hover {
+*,
+*:hover {
   transition: .3s;
 }

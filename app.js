@@ -9,9 +9,12 @@ const constants = require('./constants');
 
 const app = express();
 
-app.engine('hbs', expressHandlebars.engine({
-  defaultLayout: 'main.hbs',
-}));
+app.engine(
+  'hbs',
+  expressHandlebars.engine({
+    defaultLayout: 'main.hbs',
+  }),
+);
 
 app.use(
   express.urlencoded({
@@ -107,9 +110,17 @@ app.post('/portfolio/edit', (request, response) => {
   const { skill } = request.body;
 
   const errorMessages = [];
-  if (title === '' || Number.isNaN(skill) || title.length > constants.SKILL_TITLE_MAXLENGTH || title.length < constants.SKILL_TITLE_MINLENGTH) {
-    errorMessages.push('All fields are required and should be less than 15 chars');
-  } if (skill <= 0 && skill > 5) {
+  if (
+    title === ''
+    || Number.isNaN(skill)
+    || title.length > constants.SKILL_TITLE_MAXLENGTH
+    || title.length < constants.SKILL_TITLE_MINLENGTH
+  ) {
+    errorMessages.push(
+      'All fields are required and should be less than 15 chars',
+    );
+  }
+  if (skill <= 0 && skill > 5) {
     errorMessages.push('Skill shoule be greater than 0 and less than 6');
   }
 
@@ -151,7 +162,14 @@ app.post('/articles/comment', (request, response) => {
   const { nickname } = request.body;
   const { comment } = request.body;
   const { postId } = request.body;
-  if (nickname.trim('') && comment.trim('') && postId && nickname.length < 20 && comment.length <= 100 && comment.length >= 5) {
+  if (
+    nickname.trim('')
+    && comment.trim('')
+    && postId
+    && nickname.length < 20
+    && comment.length <= 100
+    && comment.length >= 5
+  ) {
     dbAPI.createComment(nickname, comment, postId, () => {
       response.redirect(`/articles/${postId}`);
     });
@@ -209,18 +227,25 @@ app.post('/articles/:id/edit', (request, response) => {
   const { id } = request.params;
   const { title } = request.body;
   const { text } = request.body;
-  
+
   const errorMessages = [];
-  if (title.length < constants.ARTICLE_TITLE_MINLENGTH
-    || text.length <= constants.ARTICLE_TEXT_MINLENGTH) {
+  if (
+    title.length < constants.ARTICLE_TITLE_MINLENGTH
+    || text.length <= constants.ARTICLE_TEXT_MINLENGTH
+  ) {
     errorMessages.push('Please, write detailed title and text.');
-  } if (title.length > constants.ARTICLE_TITLE_MAXLENGTH) {
+  }
+  if (title.length > constants.ARTICLE_TITLE_MAXLENGTH) {
     errorMessages.push('Title should not be too big');
-  } if (!title || !text) {
+  }
+  if (!title || !text) {
     errorMessages.push('All fields are required!');
   }
   if (errorMessages.length) {
-    response.render('edit-article.hbs', { errorMessages, post: { id, title, text } });
+    response.render('edit-article.hbs', {
+      errorMessages,
+      post: { id, title, text },
+    });
     return;
   }
   dbAPI.editPost(id, title, text, (error) => {
@@ -240,12 +265,16 @@ app.post('/articles/create', upload.single('imageUrl'), (request, response) => {
   }
 
   const errorMessages = [];
-  if (title.length < constants.ARTICLE_TITLE_MINLENGTH
-    || text.length <= constants.ARTICLE_TEXT_MINLENGTH) {
+  if (
+    title.length < constants.ARTICLE_TITLE_MINLENGTH
+    || text.length <= constants.ARTICLE_TEXT_MINLENGTH
+  ) {
     errorMessages.push('Please, write detailed title and text.');
-  } if (title.length > constants.ARTICLE_TITLE_MAXLENGTH) {
+  }
+  if (title.length > constants.ARTICLE_TITLE_MAXLENGTH) {
     errorMessages.push('Title should not be too big');
-  } if (!title || !text || !imageUrl) {
+  }
+  if (!title || !text || !imageUrl) {
     errorMessages.push('All fields are required!');
   }
   if (errorMessages.length) {
@@ -279,7 +308,9 @@ app.get('/update-portfolio', (request, response) => {
   const { id } = request.query;
   const { skill } = request.query;
   response.render('update-portfolio.hbs', {
-    title, id, skill,
+    title,
+    id,
+    skill,
   });
 });
 
@@ -300,10 +331,16 @@ app.get('/portfolio-update/:id', (request, response) => {
   const { skill } = request.query;
   const { title } = request.query;
   const errorMessages = [];
-  if (Number.isNaN(skill) || title.length > constants.SKILL_TITLE_MAXLENGTH
-   || title.length < constants.SKILL_TITLE_MINLENGTH) {
-    errorMessages.push('All fields are required and should be less than 15 chars');
-  } if (skill <= 0 && skill > 5) {
+  if (
+    Number.isNaN(skill)
+    || title.length > constants.SKILL_TITLE_MAXLENGTH
+    || title.length < constants.SKILL_TITLE_MINLENGTH
+  ) {
+    errorMessages.push(
+      'All fields are required and should be less than 15 chars',
+    );
+  }
+  if (skill <= 0 && skill > 5) {
     errorMessages.push('Skill shoule be greater than 0 and less than 6');
   }
   if (errorMessages.length === 0) {
@@ -317,7 +354,10 @@ app.get('/portfolio-update/:id', (request, response) => {
     });
   } else {
     response.render('update-portfolio.hbs', {
-      title, id, skill, errorMessages,
+      title,
+      id,
+      skill,
+      errorMessages,
     });
   }
 });
@@ -337,8 +377,10 @@ app.post('/login', (request, response) => {
   const { username } = request.body;
   const { password } = request.body;
 
-  if (username === constants.ADMIN_USERNAME
-    && bcrypt.compareSync(password, constants.ADMIN_PASSWORD_HASH)) {
+  if (
+    username === constants.ADMIN_USERNAME
+    && bcrypt.compareSync(password, constants.ADMIN_PASSWORD_HASH)
+  ) {
     request.session.isLoggedIn = true;
     response.redirect('/');
   } else {
