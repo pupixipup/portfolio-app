@@ -194,6 +194,43 @@ app.post('/articles/comment/:id/delete', (request, response) => {
   }
 });
 
+app.get('/articles/:id/edit', (request, response) => {
+  const { id } = request.params;
+  dbAPI.getPost(id, (post) => {
+    if (post) {
+      response.render('edit-article.hbs', { post });
+    } else {
+      response.redirect('/error');
+    }
+  });
+});
+
+app.post('/articles/:id/edit', (request, response) => {
+  const { id } = request.params;
+  const { title } = request.body;
+  const { text } = request.body;
+  
+  const errorMessages = [];
+  if (title.length < constants.ARTICLE_TITLE_MINLENGTH
+    || text.length <= constants.ARTICLE_TEXT_MINLENGTH) {
+    errorMessages.push('Please, write detailed title and text.');
+  } if (title.length > constants.ARTICLE_TITLE_MAXLENGTH) {
+    errorMessages.push('Title should not be too big');
+  } if (!title || !text) {
+    errorMessages.push('All fields are required!');
+  }
+  if (errorMessages.length) {
+    response.render('edit-article.hbs', { errorMessages, post: { id, title, text } });
+    return;
+  }
+  dbAPI.editPost(id, title, text, (error) => {
+    if (error) {
+      response.redirect('/error');
+    }
+    response.redirect(`/articles/${id}`);
+  });
+});
+
 app.post('/articles/create', upload.single('imageUrl'), (request, response) => {
   const { title } = request.body;
   const { text } = request.body;

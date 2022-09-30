@@ -68,6 +68,12 @@ class DBAPI {
     this.db.run(query, values, action);
   }
 
+  editPost(id, title, description, action) {
+    const query = 'UPDATE posts SET title = ?, description = ? WHERE id = ?';
+    const values = [title, description, id];
+    this.db.run(query, values, action);
+  }
+
   createPortfolioSkill(title, skill, action) {
     const query = 'INSERT INTO portfolio (title, skill) VALUES (?, ?)';
     const values = [title, skill];
