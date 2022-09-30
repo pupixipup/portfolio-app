@@ -27,6 +27,11 @@ app.use(
   }),
 );
 
+app.use((request, response, next) => {
+  response.locals.isLoggedIn = request.session.isLoggedIn;
+  next();
+});
+
 const storage = multer.diskStorage({
   destination(req, file, cb) {
     cb(null, './public/uploads');
@@ -65,7 +70,7 @@ app.get('/articles', (request, response) => {
     }
     dbAPI.getPosts(page, (posts) => {
       if (posts) {
-        response.render('articles.hbs', { posts, isLoggedIn: request.session.isLoggedIn, pages });
+        response.render('articles.hbs', { posts, pages });
       } else {
         response.redirect('/error');
       }
@@ -80,7 +85,7 @@ app.get('/articles/create', (request, response) => {
 app.get('/portfolio', (request, response) => {
   dbAPI.getPortfolioSkills((skills) => {
     if (skills) {
-      response.render('portfolio.hbs', { skills, isLoggedIn: request.session.isLoggedIn });
+      response.render('portfolio.hbs', { skills });
     } else {
       response.redirect('/error');
     }
@@ -125,7 +130,7 @@ app.get('/articles/:id', (request, response) => {
   const { id } = request.params;
   dbAPI.getPost(id, (post, comments) => {
     if (post) {
-      response.render('article.hbs', { post, comments, isLoggedIn: request.session.isLoggedIn });
+      response.render('article.hbs', { post, comments });
     } else {
       response.render('404-page-not-found.hbs');
     }
@@ -158,8 +163,8 @@ app.post('/articles/comment', (request, response) => {
 app.get('/articles/comment/:id/edit', (request, response) => {
   const { id } = request.params;
   const { comment } = request.query;
-  if (comment.trim('') && id && comment.length <= 100 && comment.length >= 5) {
-    response.render('edit-comment.hbs', { id, comment, isLoggedIn: request.session.isLoggedIn });
+  if (comment.trim() && id && comment.length <= 100 && comment.length >= 5) {
+    response.render('edit-comment.hbs', { id, comment });
   } else {
     response.redirect('/error');
   }
@@ -229,7 +234,7 @@ app.get('/404', (request, response) => {
 });
 
 app.get('/login', (request, response) => {
-  response.render('login.hbs', { isLoggedIn: request.session.isLoggedIn });
+  response.render('login.hbs');
 });
 
 app.get('/update-portfolio', (request, response) => {
@@ -237,7 +242,7 @@ app.get('/update-portfolio', (request, response) => {
   const { id } = request.query;
   const { skill } = request.query;
   response.render('update-portfolio.hbs', {
-    title, id, skill, isLoggedIn: request.session.isLoggedIn,
+    title, id, skill,
   });
 });
 
@@ -275,7 +280,7 @@ app.get('/portfolio-update/:id', (request, response) => {
     });
   } else {
     response.render('update-portfolio.hbs', {
-      title, id, skill, isLoggedIn: request.session.isLoggedIn, errorMessages,
+      title, id, skill, errorMessages,
     });
   }
 });
@@ -284,7 +289,7 @@ app.get('/search-articles', (request, response) => {
   const { search } = request.query;
   dbAPI.searchPosts(search, (posts) => {
     if (posts) {
-      response.render('articles.hbs', { posts, isLoggedIn: request.session.isLoggedIn });
+      response.render('articles.hbs', { posts });
     } else {
       response.redirect('/error');
     }
