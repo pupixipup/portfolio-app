@@ -1,0 +1,17 @@
+{{#if isLoggedIn}}
+<h1>Edit post</h1>
+{{#if errorMessages.length}}
+    <ul class="errors">
+      {{#each errorMessages}}
+        <li class="error">{{this}}</li>
+      {{/each}}
+    </ul>
+    {{/if}}
+<form action="/articles/{{post.id}}/edit" method="post" class="article-form">
+  <input value="{{post.title}}" type="text" class="article-form__title" name="title">
+  <textarea minlength="10" required class="article__form-text" name="text" cols="15" rows="10">{{post.description}}</textarea>
+  <button type="submit" class="article-form__submit">Edit post</button>
+</form>
+{{else}}
+<h2>You must be logged in to edit posts</h2>
+{{/if}}

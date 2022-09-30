@@ -1,4 +1,5 @@
 <h1>Add skill</h1>
+{{#if isLoggedIn}}
 <div class="portfolio">
   <h3>Portfolio</h3>
     {{#if errorMessages.length}}
@@ -33,3 +34,6 @@
   <input required type="range" placeholder="Skill range" min="0" max="5" class="skill-form__range" name="skill">
   <button type="submit" class="skill-form__submit">Add new skill</button>
 </form>
+{{else}}
+<h2>You must be logged in to edit portfolio</h2>
+{{/if}}
