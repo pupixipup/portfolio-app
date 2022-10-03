@@ -295,6 +295,8 @@ app.get('/error', (request, response) => {
   response.render('error.hbs');
 });
 
+
+// render instead of redirect
 app.get('/404', (request, response) => {
   response.render('404-page-not-found.hbs');
 });

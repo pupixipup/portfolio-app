@@ -38,6 +38,11 @@
 
 .article__title {
   text-align: center;
+  word-wrap: break-word;
+}
+
+.article__text {
+  word-wrap: break-word;
 }
 
 .comment-form {
