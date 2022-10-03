@@ -66,7 +66,7 @@ app.get('/articles', (request, response) => {
   const page = request.query.page || 0;
   dbAPI.getPostsCount((count) => {
     const postsTotalCount = count['COUNT(*)'];
-    const pagesTotalCount = Math.ceil(postsTotalCount / 5);
+    const pagesTotalCount = Math.ceil(postsTotalCount / constants.ITEMS_PER_PAGE);
     const pages = [];
     for (let i = 1; i <= pagesTotalCount; i += 1) {
       pages.push(i);
@@ -294,7 +294,6 @@ app.post('/articles/create', upload.single('imageUrl'), (request, response) => {
 app.get('/error', (request, response) => {
   response.render('error.hbs');
 });
-
 
 // render instead of redirect
 app.get('/404', (request, response) => {

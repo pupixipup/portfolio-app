@@ -6,6 +6,7 @@ const constants = {
   ADMIN_USERNAME: 'romas',
   ADMIN_PASSWORD_HASH:
     '$2a$10$roVdVPZQ1sd1rmDonA.AReOhSCH83e9fm/vDQn1cgNdv/jaN0PKtu',
+  ITEMS_PER_PAGE: 5,
 };
 
 module.exports = constants;
