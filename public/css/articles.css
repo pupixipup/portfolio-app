@@ -41,6 +41,11 @@
   word-wrap: break-word;
 }
 
+.articles__item-title {
+  max-width: 450px;
+  word-wrap: break-word;
+}
+
 .article__text {
   word-wrap: break-word;
 }
