@@ -124,7 +124,7 @@ app.post('/portfolio/edit', (request, response) => {
     errorMessages.push('Skill shoule be greater than 0 and less than 6');
   }
 
-  if (errorMessages.length === 0) {
+  if (errorMessages.length === 0 && request.session.isLoggedIn) {
     dbAPI.createPortfolioSkill(title, skill, (error) => {
       if (error) {
         errorMessages.push('Internal Server Error');
@@ -150,12 +150,14 @@ app.get('/articles/:id', (request, response) => {
 
 app.post('/articles/:id/delete', (request, response) => {
   const { id } = request.params;
-  dbAPI.deletePost(id, (error) => {
-    if (error) {
-      response.redirect('/error');
-    }
-    response.redirect('/articles');
-  });
+  if (request.session.isLoggedIn) {
+    dbAPI.deletePost(id, (error) => {
+      if (error) {
+        response.redirect('/error');
+      }
+      response.redirect('/articles');
+    });
+  }
 });
 
 app.post('/articles/comment', (request, response) => {
@@ -191,8 +193,8 @@ app.get('/articles/comment/:id/edit', (request, response) => {
 app.post('/articles/comment/:id/edit', (request, response) => {
   const { id } = request.params;
   const { comment } = request.body;
-  // add validation here
-  if (id && comment) {
+
+  if (id && comment && request.session.isLoggedIn) {
     dbAPI.editComment(id, comment, () => {
       response.redirect('/articles');
     });
@@ -203,7 +205,7 @@ app.post('/articles/comment/:id/edit', (request, response) => {
 
 app.post('/articles/comment/:id/delete', (request, response) => {
   const { id } = request.params;
-  if (id) {
+  if (id && request.session.isLoggedIn) {
     dbAPI.deleteComment(id, () => {
       response.redirect('/articles');
     });
@@ -248,12 +250,14 @@ app.post('/articles/:id/edit', (request, response) => {
     });
     return;
   }
-  dbAPI.editPost(id, title, text, (error) => {
-    if (error) {
-      response.redirect('/error');
-    }
-    response.redirect(`/articles/${id}`);
-  });
+  if (request.session.isLoggedIn) {
+    dbAPI.editPost(id, title, text, (error) => {
+      if (error) {
+        response.redirect('/error');
+      }
+      response.redirect(`/articles/${id}`);
+    });
+  }
 });
 
 app.post('/articles/create', upload.single('imageUrl'), (request, response) => {
@@ -282,13 +286,15 @@ app.post('/articles/create', upload.single('imageUrl'), (request, response) => {
     return;
   }
 
-  dbAPI.createPost(title, text, imageUrl, (error) => {
-    if (error) {
-      errorMessages.push('Internal Error');
-      response.render('create-article.hbs', { errorMessages });
-    }
-    response.redirect('/articles');
-  });
+  if (request.session.isLoggedIn) {
+    dbAPI.createPost(title, text, imageUrl, (error) => {
+      if (error) {
+        errorMessages.push('Internal Error');
+        response.render('create-article.hbs', { errorMessages });
+      }
+      response.redirect('/articles');
+    });
+  }
 });
 
 app.get('/error', (request, response) => {
@@ -317,14 +323,16 @@ app.get('/update-portfolio', (request, response) => {
 
 app.post('/portfolio/remove/:id', (request, response) => {
   const { id } = request.params;
-  dbAPI.deleteSkill(id, (error) => {
-    if (error) {
-      console.log(error);
-      response.render('error.hbs');
-    } else {
-      response.redirect('/portfolio');
-    }
-  });
+  if (request.session.isLoggedIn) {
+    dbAPI.deleteSkill(id, (error) => {
+      if (error) {
+        console.log(error);
+        response.render('error.hbs');
+      } else {
+        response.redirect('/portfolio');
+      }
+    });
+  }
 });
 
 app.get('/portfolio-update/:id', (request, response) => {
@@ -389,10 +397,6 @@ app.post('/login', (request, response) => {
     response.render('login.hbs', model);
   }
 });
-
-// app.get('*', (req, res) => {
-//   res.status(404).redirect('/404');
-// });
 
 app.listen(8080);
 
