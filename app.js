@@ -142,7 +142,12 @@ app.post('/articles/:id/delete', (request, response) => {
       if (error) {
         response.redirect('/error');
       }
-      response.redirect('/articles');
+      dbAPI.deleteComments(id, (error2) => {
+        if (error2) {
+          response.redirect('/error');
+        }
+        response.redirect('/articles');
+      });
     });
   }
 });
