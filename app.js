@@ -1,11 +1,11 @@
 const express = require('express');
 const path = require('path');
-const multer = require('multer');
 const expressHandlebars = require('express-handlebars');
 const expressSession = require('express-session');
 const bcrypt = require('bcryptjs');
 const dbAPI = require('./dbAPI');
 const constants = require('./constants');
+const upload = require('./storage');
 
 const app = express();
 
@@ -33,19 +33,6 @@ app.use(
 app.use((request, response, next) => {
   response.locals.isLoggedIn = request.session.isLoggedIn;
   next();
-});
-
-const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, './public/uploads');
-  },
-  filename(req, file, cb) {
-    cb(null, file.originalname);
-  },
-});
-
-const upload = multer({
-  storage,
 });
 
 app.use(express.static(path.join(__dirname, '/public')));
