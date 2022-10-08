@@ -335,10 +335,10 @@ app.post('/portfolio/remove/:id', (request, response) => {
   }
 });
 
-app.get('/portfolio-update/:id', (request, response) => {
+app.post('/portfolio-update/:id', (request, response) => {
   const { id } = request.params;
-  const { skill } = request.query;
-  const { title } = request.query;
+  const { skill } = request.body;
+  const { title } = request.body;
   const errorMessages = [];
   if (
     Number.isNaN(skill)
