@@ -374,6 +374,20 @@ app.get('/search-articles', (request, response) => {
   });
 });
 
+app.get('/logout', (request, response) => {
+  if (request.session) {
+    request.session.destroy((err) => {
+      if (err) {
+        response.redirect('/error');
+      } else {
+        response.redirect('/');
+      }
+    });
+  } else {
+    response.redirect('/');
+  }
+});
+
 app.post('/login', (request, response) => {
   const { username } = request.body;
   const { password } = request.body;

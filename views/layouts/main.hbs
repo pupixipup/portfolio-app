@@ -35,7 +35,11 @@
       <section class="navbar-section">
         <a href="/portfolio" class="btn btn-link">Portfolio</a>
         <a href="/articles" class="btn btn-link">Articles</a>
-        <a href="/login">Login</a>
+        {{#if isLoggedIn}}
+        <a href="/logout">Log out</a>
+        {{else}}
+        <a href="/login">Log in</a>
+        {{/if}}
       </section>
     </header>
     <main class="main">
