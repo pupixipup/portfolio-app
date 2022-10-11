@@ -410,6 +410,4 @@ if (process.env.PORT) {
 }
 app.listen(port);
 
-console.log(path.join(__dirname, 'public', 'uploads'));
-
 console.log(`Server is running on http://localhost:${port}`);

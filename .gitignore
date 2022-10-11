@@ -2,8 +2,6 @@
 node_modules
 # Ignore Mac system files
 .DS_store
-# Ignore public images
-/public/uploads
 # ignore database
 app-database.db
 # ignore all dbs
