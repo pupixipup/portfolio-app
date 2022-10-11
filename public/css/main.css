@@ -58,3 +58,17 @@ body {
   min-height: 100vh;
   align-items: start;
 }
+
+input[type="submit"], button[type="submit"] {
+  cursor: pointer;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 1px 1px 2px 0px rgba(1, 0, 0, 0.45);
+  border-color: transparent;
+  color: #5755d9
+}
+
+input[type="submit"]:hover {
+  transition: .3s;
+  opacity: .7;
+}
