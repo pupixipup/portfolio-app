@@ -404,6 +404,6 @@ app.post('/login', (request, response) => {
   }
 });
 
-app.listen(8080);
+app.listen(process.env.PORT || 5000);
 
-console.log('Server is running on http://localhost:8080');
+console.log('Server is running on http://localhost:5000');
