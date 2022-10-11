@@ -327,10 +327,11 @@ app.post('/portfolio/remove/:id', (request, response) => {
   }
 });
 
-app.post('/portfolio-update/:id', (request, response) => {
+app.post('/portfolio/update/:id', (request, response) => {
   const { id } = request.params;
   const { skill } = request.body;
   const { title } = request.body;
+  console.log(id, skill, title);
   const errorMessages = [];
   if (
     Number.isNaN(skill)
@@ -354,12 +355,7 @@ app.post('/portfolio-update/:id', (request, response) => {
       }
     });
   } else {
-    response.render('update-portfolio.hbs', {
-      title,
-      id,
-      skill,
-      errorMessages,
-    });
+    response.redirect('/error');
   }
 });
 

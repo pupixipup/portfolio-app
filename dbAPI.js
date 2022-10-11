@@ -120,6 +120,12 @@ class DBAPI {
     });
   }
 
+  getSkill(id, action) {
+    const query = 'SELECT * FROM portfolio WHERE id = ?';
+    const values = [id];
+    this.db.run(query, values, action);
+  }
+
   deleteSkill(id, action) {
     const query = 'DELETE FROM portfolio WHERE id = ?';
     const values = [id];

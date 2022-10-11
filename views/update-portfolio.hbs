@@ -7,7 +7,7 @@
     </ul>
   {{/if}}
   <div class="skills__wrapper">
-    <form action="/portfolio-update/{{id}}" type="post" class="skills__item">
+    <form action="/portfolio/update/{{id}}" type="post" class="skills__item">
       <input
         type="text"
         placeholder="Skill"
@@ -25,7 +25,7 @@
         class="skill-form__range"
         name="skill"
       />
-      <button type="submit">Change skill</button>
+      <button formmethod="post" type="submit">Change skill</button>
     </form>
   </div>
 {{else}}
