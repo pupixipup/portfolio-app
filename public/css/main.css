@@ -4,10 +4,12 @@
   margin-bottom: 35px;
 }
 
-@media (max-width: 365px) {
+@media (max-width: 450px) {
   .navbar {
-    flex-direction: column;
-    align-items: center;
+    flex-direction: column;  
+  }
+  .navbar-section {
+    align-self: start;
   }
 }
 
