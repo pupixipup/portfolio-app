@@ -2,8 +2,9 @@
 node_modules
 # Ignore Mac system files
 .DS_store
-# ignore database
-app-database.db
-# ignore all dbs
-*.db
-*Db.*
+
+# # ignore database
+# app-database.db
+# # ignore all dbs
+# *.db
+# *Db.*
