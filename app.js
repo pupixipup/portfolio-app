@@ -96,6 +96,11 @@ app.post('/portfolio/edit', (request, response) => {
   const { title } = request.body;
   const { skill } = request.body;
 
+  if (!request.session.isLoggedIn) {
+    response.redirect('/login');
+    return;
+  }
+
   const errorMessages = [];
   if (
     title === ''
@@ -149,6 +154,8 @@ app.post('/articles/:id/delete', (request, response) => {
         response.redirect('/articles');
       });
     });
+  } else {
+    response.redirect('/login');
   }
 });
 
@@ -185,24 +192,31 @@ app.get('/articles/comment/:id/edit', (request, response) => {
 app.post('/articles/comment/:id/edit', (request, response) => {
   const { id } = request.params;
   const { comment } = request.body;
-
-  if (id && comment && request.session.isLoggedIn) {
-    dbAPI.editComment(id, comment, () => {
-      response.redirect('/articles');
-    });
+  if (request.session.isLoggedIn) {
+    if (id && comment) {
+      dbAPI.editComment(id, comment, () => {
+        response.redirect('/articles');
+      });
+    } else {
+      response.redirect('/error');
+    }
   } else {
-    response.redirect('/error');
+    response.redirect('/login');
   }
 });
 
 app.post('/articles/comment/:id/delete', (request, response) => {
   const { id } = request.params;
-  if (id && request.session.isLoggedIn) {
-    dbAPI.deleteComment(id, () => {
-      response.redirect('/articles');
-    });
+  if (request.session.isLoggedIn) {
+    if (id) {
+      dbAPI.deleteComment(id, () => {
+        response.redirect('/articles');
+      });
+    } else {
+      response.redirect('/error');
+    }
   } else {
-    response.redirect('/error');
+    response.redirect('/login');
   }
 });
 
@@ -249,6 +263,8 @@ app.post('/articles/:id/edit', (request, response) => {
       }
       response.redirect(`/articles/${id}`);
     });
+  } else {
+    response.redirect('/login');
   }
 });
 
@@ -286,6 +302,8 @@ app.post('/articles/create', upload.single('imageUrl'), (request, response) => {
       }
       response.redirect('/articles');
     });
+  } else {
+    response.redirect('/login');
   }
 });
 
@@ -324,6 +342,8 @@ app.post('/portfolio/remove/:id', (request, response) => {
         response.redirect('/portfolio');
       }
     });
+  } else {
+    response.redirect('/login');
   }
 });
 
@@ -331,7 +351,10 @@ app.post('/portfolio/update/:id', (request, response) => {
   const { id } = request.params;
   const { skill } = request.body;
   const { title } = request.body;
-  console.log(id, skill, title);
+  if (!request.session.isLoggedIn) {
+    response.redirect('/login');
+    return;
+  }
   const errorMessages = [];
   if (
     Number.isNaN(skill)
