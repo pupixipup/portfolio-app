@@ -18,7 +18,7 @@
     "multer": "^1.4.5-lts.1",
     "sqlite3": "^5.1.1",
     "express-session": "^1.17.3",
-    " ": "^2.0.20"
+    "nodemon": "^2.0.20"
   },
   "devDependencies": {
     "eslint": "^8.24.0",
