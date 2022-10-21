@@ -4,12 +4,25 @@
   margin-bottom: 35px;
 }
 
-@media (max-width: 450px) {
+@media (max-width: 570px) {
   .navbar {
-    flex-direction: column;  
+    flex-direction: column;
   }
+
   .navbar-section {
     align-self: start;
+  }
+}
+
+.navbar-title {
+  font-weight: bold;
+}
+
+@media (max-width:570px) {
+  .navbar-title {
+    order: -1;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
@@ -61,7 +74,8 @@ body {
   align-items: start;
 }
 
-input[type="submit"], button[type="submit"] {
+input[type="submit"],
+button[type="submit"] {
   cursor: pointer;
   background: white;
   border-radius: 5px;
